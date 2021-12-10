@@ -1,0 +1,37 @@
+ //copy from borovan#6250 in discord https://discord.com/channels/748416164832608337/748420568268800060
+ 
+ 
+ let data = TrieMap.TrieMap<Nat, Row<E>>(Nat.equal, Hash.hash);
+that's how we initialise a TrieMap, and our value is a generic Row<E> around an Entity data
+    // load
+    public func load(id : Nat) : ?Row<E> { data.get(id) };
+    // loadMany
+    public func loadMany(ids : [Nat]) : [(Nat, Row<E>)] {
+      let size = ids.size();
+      let buf = Buffer.Buffer<(Nat, Row<E>)>(size);
+      for (i in Iter.range(0, size-1)) {
+        switch (load(ids[i])) {
+          case (?row) { buf.add((ids[i], row)) };
+          case (_) {};
+        };
+      };
+      buf.toArray();
+    };
+    // loadAll
+    public func loadAll() : [(Nat, Row<E>)] {
+      let size = data.size();
+      let buf = Buffer.Buffer<(Nat, Row<E>)>(size);
+      for ((id, e) in data.entries()) {
+        buf.add((id, e));
+      };
+      buf.toArray();
+    };
+happy to give you all the code if neded
+in our case Row is
+  // Row
+  public type Row<T> = {
+    entity : T;
+    secret : Nat;  // secondary ID regardless of what the Key is
+    created : Time.Time;
+    updated : Time.Time;
+  };
