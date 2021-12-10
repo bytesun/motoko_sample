@@ -1,0 +1,21 @@
+//fetch tranctions of address
+//ref: https://discord.com/channels/748416164832608337/748420568268800060  (morty’s rick#0866 in discord)
+
+fetch(
+    "https://rosetta-api.internetcomputer.org/search/transactions",
+    {
+      body: JSON.stringify({
+        network_identifier: {
+          blockchain: "Internet Computer",
+          network: "00000000000000020101",
+        },
+        account_identifier: {
+          address: "abc-dss-...",
+        },
+      }),
+      method: "POST",
+      headers: {
+        "content-type": "application/json;charset=UTF-8",
+      },
+    },
+  )
