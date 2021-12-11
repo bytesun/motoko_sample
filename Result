@@ -1,0 +1,16 @@
+//ref: https://forum.dfinity.org/t/how-to-use-result-function/5768/2
+
+Using Motoko:
+
+declare Type (snippet):
+type Result<T,E> = Result.Result<T,E>;
+2.function (snippet):
+
+public shared query ({caller}) func exportStore() : async Result<[(Id, Instruction)],Text> {
+        let isAllowed : Bool = Principal.equal(canisterOwner,caller);
+        if (isAllowed) {
+            #ok(Iter.toArray(instructionsRegistry.entries())); 
+        } else {
+            #err("Caller isn't allowed to export the store. Caller is : " # Principal.toText(caller));
+        }
+    };
