@@ -1,0 +1,6 @@
+The Javascript binding for optional types is [] | [T] , where an empty array represents null.
+This may be what you want to pass in for that example (untested):
+[{contains: ["text01"], startsWith: []}]
+
+There’s a reference for the bindings here that can help (look for “Corresponding Javascript values” under each entry):
+https://smartcontracts.org/docs/candid-guide/candid-types.html#type-opt
