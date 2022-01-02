@@ -1,0 +1,32 @@
+refer to : https://qiuyedx.com/?p=865
+=======================================
+
+import RBT "mo:base/RBTree"; //RB树的库文件
+import Nat "mo:base/Nat";
+import Principal "mo:base/Principal";
+import B "./B.mo";
+
+private stable var b_index : Nat = 0;
+private let Bs = RBT.RBTree<Nat, Principal>(Nat.compare); //存储创建的B canister
+
+private let IC : Types.IC.ICActor = actor "aaaaa-aa"; //ledger actor的ID
+private let CYCLE_LIMIT = 1_000_000_000_000; //根据需要进行分配
+
+//动态创建canister的函数
+public shared({caller}) func createB() : async Result.Result<Principal, Text>{
+        Cycles.add(CYCLE_LIMIT);
+        let b = await B.B(caller);
+        let principal = Principal.fromActor(b);
+        await IC.update_settings({
+            canister_id = principal;
+            settings = {
+                freezing_threshold = ?2592000;
+                controllers = ?[caller]; //A不作为B的控制者的写法
+                memory_allocation = ?0;
+                compute_allocation = ?0;
+            }
+        });
+        Bs.put(b_index, principal);
+        b_index += 1;
+        #ok(principal)
+    };
