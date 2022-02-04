@@ -1,0 +1,6 @@
+let rts_version = Prim.rts_version();
+let heap_size = Prim.rts_heap_size();
+let rts_memory_size = Prim.rts_memory_size();
+let rts_total_allocation = Prim.rts_total_allocation();
+let rts_reclaimed = Prim.rts_reclaimed();
+let rts_max_live_size = Prim.rts_max_live_size();
