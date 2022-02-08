@@ -1,0 +1,16 @@
+A user/frontend can call:
+a shared function (with consensus and state change),
+a shared query function (without consensus or state change).
+
+A class constructor can call:
+any local function.
+
+A shared function (or async expression) can call:
+any local function, and
+any shared function (with consensus and state change), and
+any shared query function (with consensus but no state change),
+and await the results of shared (shared query) functions.
+
+A shared query function can call:
+any local function.
+it cannot call any shared or shared query functions, nor await their results.
