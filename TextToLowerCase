@@ -1,0 +1,7 @@
+import Text "mo:base/Text";
+import Prim "mo:prim";
+
+let message = "HeLLo";
+
+let x = Text.map(message , Prim.charToLower);
+let y = Text.map(message , Prim.charToUpper);
