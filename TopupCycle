@@ -1,0 +1,24 @@
+transfer ICP to Cycle canister with memo
+
+  let CYCLE_MINTING_CANISTER = Principal.fromText("rkp4c-7iaaa-aaaaa-aaaca-cai");
+  let TOP_UP_CANISTER_MEMO = 0x50555054 : Nat64;
+  
+  let user = deposit.user;
+        let from_subaccount = Util.principalToSubAccount(user.id);
+        let to_subaccount = Util.principalToSubAccount(Principal.fromActor(self));
+        let account = AccountId.fromPrincipal(CYCLE_MINTING_CANISTER, ?to_subaccount);
+        ignore log("BeforeTransfer " # debug_show({ user = user.id; deposit = deposit.icp }));
+        try {
+          depositing := ?(deposit, #MintCalled);
+          let result = await Ledger.transfer({
+                to = Blob.fromArray(account);
+                fee = { e8s = FEE };
+                memo = TOP_UP_CANISTER_MEMO;
+                from_subaccount = ?Blob.fromArray(from_subaccount);
+                amount = { e8s = deposit.icp.e8s - 2 * FEE };
+                created_at_time = null;
+              });
+              
+              
+              
+refer to https://github.com/ninegua/tipjar/blob/main/src/tipjar/main.mo
